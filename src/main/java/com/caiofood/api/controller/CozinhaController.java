@@ -5,16 +5,19 @@ import com.caiofood.api.exception.EntidadeNãoEncontradaException;
 import com.caiofood.api.model.Cozinha;
 import com.caiofood.api.repository.CozinhaRepository;
 import com.caiofood.api.service.CozinhaService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.catalina.mbeans.MBeanUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.Field;
 import java.util.List;
-
+import java.util.Map;
 
 
 @RestController
@@ -32,7 +35,7 @@ public class CozinhaController {
         return cozinhaRepository.listar();
     }
 
-    @GetMapping(value = "/{cozinhaid}")
+    @GetMapping(value = "/{cozinhaId}")
     public ResponseEntity<Cozinha> buscar(@PathVariable Long cozinhaId){
         Cozinha cozinha =  cozinhaRepository.buscar(cozinhaId);
         if(cozinha != null){
@@ -47,9 +50,9 @@ public class CozinhaController {
         return cozinhaService.salvar(cozinha);
     }
 
-    @PutMapping("/{cozinhaid}")
-    public ResponseEntity<Cozinha> atualizar(@PathVariable Long cozinhaid, @RequestBody Cozinha cozinha){
-        Cozinha cozinhaAtual = cozinhaRepository.buscar(cozinhaid);
+    @PutMapping("/{cozinhaId}")
+    public ResponseEntity<Cozinha> atualizar(@PathVariable Long cozinhaId, @RequestBody Cozinha cozinha){
+        Cozinha cozinhaAtual = cozinhaRepository.buscar(cozinhaId);
         if(cozinhaAtual != null){
         BeanUtils.copyProperties(cozinha, cozinhaAtual, "id"); //Ignora o Id na ultima propriedade
         cozinhaService.salvar(cozinhaAtual);
@@ -70,7 +73,28 @@ public class CozinhaController {
         }
     }
 
+    @PatchMapping("/{cozinhaId}")
+    public ResponseEntity<?> atualizarParcial(@PathVariable Long cozinhaId, @RequestBody Map<String, Object> campos){
+        Cozinha cozinhaAtual = cozinhaRepository.buscar(cozinhaId);
+        if(cozinhaAtual == null){
+            return  ResponseEntity.notFound().build();
+        }
+        merge(campos, cozinhaAtual);
+        return atualizar(cozinhaId, cozinhaAtual);
+    }
 
+    private void merge(@RequestBody Map<String, Object> camposOrigem, Cozinha cozinhaDestino) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        Cozinha cozinhaOrigem = objectMapper.convertValue(camposOrigem, Cozinha.class);
+        camposOrigem.forEach((nomePropriedade, valorPropriedade) -> {
+            Field field = ReflectionUtils.findField(Cozinha.class, nomePropriedade);
+            field.setAccessible(true);
+
+            Object novoValor = ReflectionUtils.getField(field, cozinhaOrigem);
+
+            ReflectionUtils.setField(field, cozinhaDestino, novoValor);
+        });
+    }
 
 
 }
