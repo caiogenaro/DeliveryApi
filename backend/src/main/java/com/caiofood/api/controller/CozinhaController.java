@@ -6,10 +6,8 @@ import com.caiofood.api.model.Cozinha;
 import com.caiofood.api.repository.CozinhaRepository;
 import com.caiofood.api.service.CozinhaService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.catalina.mbeans.MBeanUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.ReflectionUtils;
@@ -43,6 +41,12 @@ public class CozinhaController {
         }
         return ResponseEntity.notFound().build();
     }
+
+    @GetMapping(value = "/listar-por-nome")
+    public List<Cozinha> listarPorNome(@RequestParam("nome") String nome){
+        return cozinhaRepository.listarPorNome(nome);
+    }
+
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
