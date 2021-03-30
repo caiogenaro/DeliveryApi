@@ -4,6 +4,7 @@ import com.caiofood.api.exception.EntidadeEmUsoException;
 import com.caiofood.api.exception.EntidadeNãoEncontradaException;
 import com.caiofood.api.model.Cozinha;
 import com.caiofood.api.repository.CozinhaRepository;
+import com.caiofood.api.repository.RestauranteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;

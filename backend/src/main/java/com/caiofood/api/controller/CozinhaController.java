@@ -4,6 +4,7 @@ import com.caiofood.api.exception.EntidadeEmUsoException;
 import com.caiofood.api.exception.EntidadeNãoEncontradaException;
 import com.caiofood.api.model.Cozinha;
 import com.caiofood.api.repository.CozinhaRepository;
+import com.caiofood.api.repository.RestauranteRepository;
 import com.caiofood.api.service.CozinhaService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.BeanUtils;
@@ -19,7 +20,7 @@ import java.util.Map;
 
 
 @RestController
-@RequestMapping(value = "/cozinhas")
+@RequestMapping(value ="/cozinhas")
 public class CozinhaController {
 
     @Autowired

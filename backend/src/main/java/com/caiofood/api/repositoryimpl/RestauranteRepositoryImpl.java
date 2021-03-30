@@ -1,7 +1,6 @@
 package com.caiofood.api.repositoryimpl;
 
-import com.caiofood.api.model.Cozinha;
-import com.caiofood.api.repository.CozinhaRepository;
+import com.caiofood.api.model.Restaurante;
 import com.caiofood.api.repository.RestauranteRepository;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
@@ -11,46 +10,43 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
-
 @Repository
-public class CozinhaRepositoryImpl implements CozinhaRepository {
+public class RestauranteRepositoryImpl implements RestauranteRepository {
 
     @PersistenceContext
     private EntityManager entityManager;
 
     @Override
-    public List<Cozinha> listar(){
-        return entityManager.createQuery("from Cozinha", Cozinha.class).getResultList();
+    public List<Restaurante> listar(){
+        return entityManager.createQuery("from Restaurante", Restaurante.class).getResultList();
     }
 
     @Override
-    public Cozinha buscar(Long id){
-        return entityManager.find(Cozinha.class, id);
+    public Restaurante buscar(Long id){
+        return entityManager.find(Restaurante.class, id);
     }
 
     @Transactional
     @Override
-    public Cozinha salvar(Cozinha cozinha){
-        return entityManager.merge(cozinha);
+    public Restaurante salvar(Restaurante restaurante){
+        return entityManager.merge(restaurante);
     }
 
     @Transactional
     @Override
     public void remover(Long id){
-        Cozinha cozinha = buscar(id);
-        if(cozinha == null){
+        Restaurante restaurante = buscar(id);
+        if(restaurante == null){
             throw new EmptyResultDataAccessException(1);
         }
-        entityManager.remove(cozinha);
+        entityManager.remove(restaurante);
     }
 
     @Override
-    public List<Cozinha> listarPorNome(String nome) {
-        return entityManager.createQuery("from Cozinha where nome = :nome", Cozinha.class)
+    public List<Restaurante> listarPorNome(String nome) {
+        return entityManager.createQuery("from Restaurante where nome = :nome", Restaurante.class)
                 .setParameter("nome", "%" + nome + "%")
                 .getResultList();
 
     }
-
-
 }

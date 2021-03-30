@@ -20,3 +20,12 @@ label{
 }
 
 
+.delete-class{
+    width: 90px;
+    text-align: center;
+}
+.delete-button{
+    width: 45px;
+    margin-top: 10px;
+    margin-left: 10px;
+}

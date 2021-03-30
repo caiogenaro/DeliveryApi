@@ -20,6 +20,10 @@ public class Estado {
     @Column(name ="nome_Estado")
     private String nome;
 
+    @ManyToOne
+    @JoinColumn(name ="cidade_id")
+    private Cidade cidade;
+
 
 
 }

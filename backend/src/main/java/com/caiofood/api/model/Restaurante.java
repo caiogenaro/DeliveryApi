@@ -18,6 +18,8 @@ public class Restaurante {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name ="nome_Restaurante")
+    private String nomeRestaurante;
 
     @Column(name ="taxa_frete")
     private BigDecimal taxaFrete;
@@ -28,11 +30,11 @@ public class Restaurante {
     @Column(name ="aberto")
     private Boolean aberto;
 
-    @Column(name ="data_Cadastro")
-    private LocalDateTime dataCadastro;
-
-    @Column(name ="data_Atualizacao")
-    private LocalDateTime dataAtualizacao;
+//    @Column(name ="data_Cadastro")
+//    private LocalDateTime dataCadastro;
+//
+//    @Column(name ="data_Atualizacao")
+//    private LocalDateTime dataAtualizacao;
 
     @ManyToOne
     @JoinColumn(name ="cozinha_id")
