@@ -1,0 +1,105 @@
+<div class="container">
+  <div>
+    <h1>Restaurante Form</h1>
+  </div>
+  
+<form [formGroup]="formulario" (ngSubmit)="salvar()">
+  
+  <div class="p-fluid p-grid">
+    <div class="p-col-12">
+      <label>Nome do Restaurante</label>
+      <input pInputText type="text" minlength="3" maxlength="10" formControlName="nomeRestaurante"/>
+      <app-mensagem-validacao formControlName="nomeRestaurante" type="required" errorMessage="Nome Restaurante obrigatório"></app-mensagem-validacao>      
+      <app-mensagem-validacao formControlName="nomeRestaurante" type="minlength" errorMessage="Minimo 3 e maximo de 10 Letras"></app-mensagem-validacao>
+           
+    </div>
+  </div>
+  
+  <div class="p-fluid p-grid">
+    <div class="p-col-12">
+      <label>Taxa Frete</label>
+      <input pInputText type="text" currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" formControlName="taxaFrete"/>
+      <app-mensagem-validacao formControlName="taxaFrete" type="required" errorMessage="Taxa frete é obrigatório"></app-mensagem-validacao>      
+    </div>
+  </div>
+  
+  <div class="p-fluid  p-grid">
+    <div class="p-col-4">
+      <label for="firstname">Cadastro</label>
+      <p-calendar dateFormat="dd/mm/yy" [readonlyInput]="true" formControlName="dataCadastro"></p-calendar>
+      <app-mensagem-validacao formControlName="dataCadastro" type="required" errorMessage="Data cadastro é obrigatório"></app-mensagem-validacao>
+    </div>
+    <div class="p-col-4">
+      <label for="lastname">Atualização</label>
+      <p-calendar dateFormat="dd/mm/yy" [readonlyInput]="true" formControlName="dataAtualização"></p-calendar>
+    </div>
+  </div>
+  
+  <div class="p-fluid p-grid">
+    <div class="p-col-2">
+      <p-checkbox formControlName="valorAtivo" [binary]="true"></p-checkbox>
+      <label for="firstname">Ativo</label>
+      <app-mensagem-validacao formControlName="valorAtivo" type="required" errorMessage="Ativo precisa estar obrigatório"></app-mensagem-validacao>
+    </div>
+    
+    <div class="p-col-2">
+      <p-checkbox formControlName="valorAberto" [binary]="true"></p-checkbox>
+      <label for="firstname"> Aberto</label>
+    </div>
+  </div>
+  
+  <div class="p-fluid p-grid">
+    <div class="p-col-4">
+      <p-dropdown
+      [options]="cozinhas"
+      placeholder="Selecione"        
+      optionLabel="name"
+      name="cozinhas"
+      formControlName="tipoCozinha"
+      ></p-dropdown>
+      <app-mensagem-validacao formControlName="tipoCozinha" type="required" errorMessage="Tipo de cozinha é obrigatório"></app-mensagem-validacao>
+    </div>
+  </div>
+  
+  <div class="p-grid">
+    <div class="p-col-1">
+      <button pButton type="submit" (click)="clicou()" label="Submit"></button>
+    </div>
+  </div>
+</form>
+  
+  <div class="tabela">
+    <p-table
+      [value]="cozinhas"
+      [paginator]="true"
+      [rows]="2"
+      [responsive]="true"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Code</th>
+          <th>Name Restaurante</th>
+          <th>Tipo Cozinha</th>
+          <th>Ativo</th>
+          <th class="delete-class">Delete</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-cozinha>
+        <tr>
+          <td>{{ cozinha.code }}</td>
+          <td>{{ cozinha.name }}</td>
+          <td>{{ cozinha.code }}</td>
+          <td>{{ cozinha.quantity }}</td>
+          <button
+            class="delete-button"
+            pButton
+            icon="fa fa-trash-o"
+            data-toggle="tooltip"
+            data-placement="bottom"
+            title="Delete"
+          ></button>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
