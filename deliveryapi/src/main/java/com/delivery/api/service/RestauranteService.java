@@ -22,6 +22,7 @@ public class RestauranteService {
 
 
     public Restaurante salvar(Restaurante restaurante){
+
         return restauranteRepository.salvar(restaurante);
     }
 
